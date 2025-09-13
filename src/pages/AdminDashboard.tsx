@@ -3,6 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { mockAdminStats, mockStocks } from "@/data/mockData";
+import { useAuth } from "@/hooks/useAuth";
+import { useToast } from "@/hooks/use-toast";
 import { 
   Users, 
   TrendingUp, 
@@ -11,10 +13,21 @@ import {
   UserPlus,
   BarChart3,
   Settings,
-  Shield
+  Shield,
+  LogOut
 } from "lucide-react";
 
 export function AdminDashboard() {
+  const { user, signOut } = useAuth();
+  const { toast } = useToast();
+
+  const handleSignOut = async () => {
+    await signOut();
+    toast({
+      title: "Signed out successfully",
+      description: "You have been logged out of your account.",
+    });
+  };
   return (
     <div className="min-h-screen bg-gradient-hero">
       {/* Header */}
@@ -25,7 +38,7 @@ export function AdminDashboard() {
               <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 TradeForce Admin
               </h1>
-              <p className="text-muted-foreground">System Administration Panel</p>
+              <p className="text-muted-foreground">System Administration Panel - {user?.email}</p>
             </div>
             <div className="flex items-center gap-4">
               <Button variant="outline" size="icon">
@@ -34,6 +47,10 @@ export function AdminDashboard() {
               <Button variant="outline">
                 <Settings className="h-4 w-4 mr-2" />
                 Settings
+              </Button>
+              <Button variant="outline" onClick={handleSignOut}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
               </Button>
             </div>
           </div>

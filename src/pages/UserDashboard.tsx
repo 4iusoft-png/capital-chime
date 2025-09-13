@@ -7,12 +7,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { mockStocks, mockPortfolioData, mockUserHoldings } from "@/data/mockData";
 import { useToast } from "@/hooks/use-toast";
-import { TrendingUp, TrendingDown, Search, Bell } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
+import { TrendingUp, TrendingDown, Search, Bell, LogOut } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 
 export function UserDashboard() {
   const { toast } = useToast();
+  const { user, signOut } = useAuth();
   const [searchQuery, setSearchQuery] = useState("");
   
   const filteredStocks = mockStocks.filter(stock =>
@@ -28,6 +30,14 @@ export function UserDashboard() {
     });
   };
 
+  const handleSignOut = async () => {
+    await signOut();
+    toast({
+      title: "Signed out successfully",
+      description: "You have been logged out of your account.",
+    });
+  };
+
   return (
     <div className="min-h-screen bg-gradient-hero">
       {/* Header */}
@@ -38,13 +48,17 @@ export function UserDashboard() {
               <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 TradeForce
               </h1>
-              <p className="text-muted-foreground">Welcome back, Trader</p>
+              <p className="text-muted-foreground">Welcome back, {user?.email}</p>
             </div>
             <div className="flex items-center gap-4">
               <Button variant="outline" size="icon">
                 <Bell className="h-4 w-4" />
               </Button>
               <Button variant="outline">Account Settings</Button>
+              <Button variant="outline" onClick={handleSignOut}>
+                <LogOut className="h-4 w-4 mr-2" />
+                Sign Out
+              </Button>
             </div>
           </div>
         </div>

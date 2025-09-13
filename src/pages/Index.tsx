@@ -18,11 +18,11 @@ const Index = () => {
             </span>
           </div>
           <div className="flex items-center gap-4">
-            <Link to="/dashboard">
-              <Button variant="outline">User Dashboard</Button>
+            <Link to="/auth">
+              <Button variant="outline">Sign In</Button>
             </Link>
-            <Link to="/admin">
-              <Button className="bg-gradient-primary shadow-trading">Admin Panel</Button>
+            <Link to="/auth">
+              <Button className="bg-gradient-primary shadow-trading">Get Started</Button>
             </Link>
           </div>
         </div>
@@ -50,7 +50,7 @@ const Index = () => {
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link to="/dashboard">
+              <Link to="/auth">
                 <Button size="lg" className="bg-gradient-primary shadow-trading text-lg px-8 py-6">
                   Start Trading Now
                 </Button>
@@ -159,7 +159,7 @@ const Index = () => {
               Join thousands of successful traders who trust TradeForce for their investment journey.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link to="/dashboard">
+              <Link to="/auth">
                 <Button 
                   size="lg" 
                   className="bg-background text-foreground hover:bg-background/90 shadow-lg text-lg px-8 py-6"
