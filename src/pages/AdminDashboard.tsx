@@ -2,9 +2,11 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { mockAdminStats, mockStocks } from "@/data/mockData";
+import { mockStocks } from "@/data/mockData";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/hooks/use-toast";
+import { useAdminAnalytics } from "@/hooks/useAdminAnalytics";
+import { UserList } from "@/components/UserList";
 import { 
   Users, 
   TrendingUp, 
@@ -20,6 +22,7 @@ import {
 export function AdminDashboard() {
   const { user, signOut } = useAuth();
   const { toast } = useToast();
+  const analytics = useAdminAnalytics();
 
   const handleSignOut = async () => {
     await signOut();
@@ -59,79 +62,93 @@ export function AdminDashboard() {
 
       <main className="container mx-auto px-6 py-8">
         {/* Admin Stats Overview */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
-          <Card className="p-6 bg-gradient-primary">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-primary-foreground/80 text-sm font-medium">Total Users</p>
-                <p className="text-2xl font-bold text-primary-foreground">
-                  {mockAdminStats.totalUsers.toLocaleString()}
-                </p>
-              </div>
-              <Users className="h-8 w-8 text-primary-foreground/60" />
-            </div>
+        {analytics.loading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
+            {[...Array(6)].map((_, i) => (
+              <Card key={i} className="p-6 animate-pulse">
+                <div className="h-16 bg-muted rounded"></div>
+              </Card>
+            ))}
+          </div>
+        ) : analytics.error ? (
+          <Card className="p-6 mb-8 border-red-500/50 bg-red-500/5">
+            <p className="text-red-500">Error loading analytics: {analytics.error}</p>
           </Card>
+        ) : (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
+            <Card className="p-6 bg-gradient-primary">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-primary-foreground/80 text-sm font-medium">Total Users</p>
+                  <p className="text-2xl font-bold text-primary-foreground">
+                    {analytics.totalUsers.toLocaleString()}
+                  </p>
+                </div>
+                <Users className="h-8 w-8 text-primary-foreground/60" />
+              </div>
+            </Card>
 
-          <Card className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-muted-foreground text-sm font-medium">Total Trades</p>
-                <p className="text-2xl font-bold text-chart-bull animate-price-pulse">
-                  {mockAdminStats.totalTrades.toLocaleString()}
-                </p>
+            <Card className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-muted-foreground text-sm font-medium">Admin Users</p>
+                  <p className="text-2xl font-bold text-chart-bull animate-price-pulse">
+                    {analytics.adminUsers.toLocaleString()}
+                  </p>
+                </div>
+                <Shield className="h-8 w-8 text-chart-bull" />
               </div>
-              <TrendingUp className="h-8 w-8 text-chart-bull" />
-            </div>
-          </Card>
+            </Card>
 
-          <Card className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-muted-foreground text-sm font-medium">Total Volume</p>
-                <p className="text-2xl font-bold text-accent">
-                  ${mockAdminStats.totalVolume}
-                </p>
+            <Card className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-muted-foreground text-sm font-medium">Regular Users</p>
+                  <p className="text-2xl font-bold text-accent">
+                    {analytics.regularUsers.toLocaleString()}
+                  </p>
+                </div>
+                <Activity className="h-8 w-8 text-accent/60" />
               </div>
-              <DollarSign className="h-8 w-8 text-accent/60" />
-            </div>
-          </Card>
+            </Card>
 
-          <Card className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-muted-foreground text-sm font-medium">Active Users</p>
-                <p className="text-2xl font-bold">
-                  {mockAdminStats.activeUsers.toLocaleString()}
-                </p>
+            <Card className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-muted-foreground text-sm font-medium">New This Week</p>
+                  <p className="text-2xl font-bold">
+                    +{analytics.newUsersThisWeek.toLocaleString()}
+                  </p>
+                </div>
+                <TrendingUp className="h-8 w-8 text-muted-foreground" />
               </div>
-              <Activity className="h-8 w-8 text-muted-foreground" />
-            </div>
-          </Card>
+            </Card>
 
-          <Card className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-muted-foreground text-sm font-medium">New Users Today</p>
-                <p className="text-2xl font-bold text-chart-bull animate-bounce-subtle">
-                  +{mockAdminStats.newUsersToday}
-                </p>
+            <Card className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-muted-foreground text-sm font-medium">New Users Today</p>
+                  <p className="text-2xl font-bold text-chart-bull animate-bounce-subtle">
+                    +{analytics.newUsersToday}
+                  </p>
+                </div>
+                <UserPlus className="h-8 w-8 text-chart-bull" />
               </div>
-              <UserPlus className="h-8 w-8 text-chart-bull" />
-            </div>
-          </Card>
+            </Card>
 
-          <Card className="p-6 border-chart-bull/50">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-muted-foreground text-sm font-medium">Performance</p>
-                <p className="text-2xl font-bold text-chart-bull">
-                  {mockAdminStats.tradesPerformanceToday}
-                </p>
+            <Card className="p-6 border-chart-bull/50">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-muted-foreground text-sm font-medium">New This Month</p>
+                  <p className="text-2xl font-bold text-chart-bull">
+                    +{analytics.newUsersThisMonth}
+                  </p>
+                </div>
+                <BarChart3 className="h-8 w-8 text-chart-bull" />
               </div>
-              <BarChart3 className="h-8 w-8 text-chart-bull" />
-            </div>
-          </Card>
-        </div>
+            </Card>
+          </div>
+        )}
 
         <Tabs defaultValue="users" className="space-y-6">
           <TabsList className="grid w-full grid-cols-4">
@@ -147,30 +164,51 @@ export function AdminDashboard() {
                 <h3 className="text-lg font-semibold">User Management</h3>
                 <Button className="bg-gradient-primary">Add New User</Button>
               </div>
-              <div className="space-y-4">
-                {[
-                  { name: "John Doe", email: "john@example.com", status: "Active", trades: 245 },
-                  { name: "Jane Smith", email: "jane@example.com", status: "Active", trades: 189 },
-                  { name: "Bob Johnson", email: "bob@example.com", status: "Inactive", trades: 67 },
-                  { name: "Alice Brown", email: "alice@example.com", status: "Active", trades: 432 }
-                ].map((user, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 border border-border rounded-lg">
-                    <div className="flex items-center gap-4">
-                      <div>
-                        <h4 className="font-medium">{user.name}</h4>
-                        <p className="text-sm text-muted-foreground">{user.email}</p>
+              
+              {analytics.loading ? (
+                <div className="space-y-4">
+                  {[...Array(4)].map((_, i) => (
+                    <div key={i} className="flex items-center justify-between p-4 border border-border rounded-lg animate-pulse">
+                      <div className="flex items-center gap-4">
+                        <div className="w-10 h-10 bg-muted rounded-full"></div>
+                        <div className="space-y-2">
+                          <div className="h-4 w-32 bg-muted rounded"></div>
+                          <div className="h-3 w-48 bg-muted rounded"></div>
+                        </div>
+                      </div>
+                      <div className="flex items-center gap-4">
+                        <div className="h-6 w-16 bg-muted rounded"></div>
+                        <div className="h-8 w-20 bg-muted rounded"></div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-4">
-                      <Badge variant={user.status === 'Active' ? 'default' : 'secondary'}>
-                        {user.status}
-                      </Badge>
-                      <span className="text-sm text-muted-foreground">{user.trades} trades</span>
-                      <Button variant="outline" size="sm">Manage</Button>
-                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                    <Card className="p-4 bg-gradient-primary">
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-primary-foreground">{analytics.totalUsers}</p>
+                        <p className="text-primary-foreground/80 text-sm">Total Users</p>
+                      </div>
+                    </Card>
+                    <Card className="p-4">
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-chart-bull">{analytics.adminUsers}</p>
+                        <p className="text-muted-foreground text-sm">Admin Users</p>
+                      </div>
+                    </Card>
+                    <Card className="p-4">
+                      <div className="text-center">
+                        <p className="text-2xl font-bold">{analytics.regularUsers}</p>
+                        <p className="text-muted-foreground text-sm">Regular Users</p>
+                      </div>
+                    </Card>
                   </div>
-                ))}
-              </div>
+                  
+                  <UserList />
+                </div>
+              )}
             </Card>
           </TabsContent>
 
