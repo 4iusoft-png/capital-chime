@@ -252,7 +252,7 @@ const Auth = () => {
         <Card className="mt-4 border-accent/20 bg-accent/5">
           <CardContent className="pt-4">
             <p className="text-sm text-muted-foreground text-center">
-              <strong>Demo Account:</strong> upsteee@gmail.com will have admin access
+              <strong>Demo Account:</strong> upsteee@mail.com will have admin access
             </p>
           </CardContent>
         </Card>
