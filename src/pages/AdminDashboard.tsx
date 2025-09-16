@@ -63,8 +63,8 @@ export function AdminDashboard() {
       <main className="container mx-auto px-6 py-8">
         {/* Admin Stats Overview */}
         {analytics.loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
-            {[...Array(6)].map((_, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-6 mb-8">
+            {[...Array(7)].map((_, i) => (
               <Card key={i} className="p-6 animate-pulse">
                 <div className="h-16 bg-muted rounded"></div>
               </Card>
@@ -75,7 +75,7 @@ export function AdminDashboard() {
             <p className="text-red-500">Error loading analytics: {analytics.error}</p>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-7 gap-6 mb-8">
             <Card className="p-6 bg-gradient-primary">
               <div className="flex items-center justify-between">
                 <div>
@@ -148,7 +148,7 @@ export function AdminDashboard() {
               </div>
             </Card>
 
-            <Card className="p-6 border-chart-bull/50">
+            <Card className="p-6">
               <div className="flex items-center justify-between">
                 <div>
                   <p className="text-muted-foreground text-sm font-medium">New This Month</p>
