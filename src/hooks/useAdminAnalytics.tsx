@@ -3,6 +3,8 @@ import { supabase } from '@/integrations/supabase/client';
 
 interface AdminAnalytics {
   totalUsers: number;
+  activeUsers: number;
+  inactiveUsers: number;
   newUsersToday: number;
   newUsersThisWeek: number;
   newUsersThisMonth: number;
@@ -16,6 +18,8 @@ interface AdminAnalytics {
 export function useAdminAnalytics(): AdminAnalytics {
   const [analytics, setAnalytics] = useState<AdminAnalytics>({
     totalUsers: 0,
+    activeUsers: 0,
+    inactiveUsers: 0,
     newUsersToday: 0,
     newUsersThisWeek: 0,
     newUsersThisMonth: 0,
@@ -40,6 +44,22 @@ export function useAdminAnalytics(): AdminAnalytics {
         .select('*', { count: 'exact', head: true });
 
       if (totalUsersError) throw totalUsersError;
+
+      // Get active users count
+      const { count: activeUsers, error: activeError } = await supabase
+        .from('profiles')
+        .select('*', { count: 'exact', head: true })
+        .eq('is_active', true);
+
+      if (activeError) throw activeError;
+
+      // Get inactive users count
+      const { count: inactiveUsers, error: inactiveError } = await supabase
+        .from('profiles')
+        .select('*', { count: 'exact', head: true })
+        .eq('is_active', false);
+
+      if (inactiveError) throw inactiveError;
 
       // Get users created today
       const today = new Date();
@@ -112,6 +132,8 @@ export function useAdminAnalytics(): AdminAnalytics {
 
       setAnalytics({
         totalUsers: totalUsers || 0,
+        activeUsers: activeUsers || 0,
+        inactiveUsers: inactiveUsers || 0,
         newUsersToday: newUsersToday || 0,
         newUsersThisWeek: newUsersThisWeek || 0,
         newUsersThisMonth: newUsersThisMonth || 0,

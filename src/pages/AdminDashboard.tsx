@@ -103,12 +103,24 @@ export function AdminDashboard() {
             <Card className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-muted-foreground text-sm font-medium">Regular Users</p>
-                  <p className="text-2xl font-bold text-accent">
-                    {analytics.regularUsers.toLocaleString()}
+                  <p className="text-muted-foreground text-sm font-medium">Active Users</p>
+                  <p className="text-2xl font-bold text-chart-bull animate-price-pulse">
+                    {analytics.activeUsers.toLocaleString()}
                   </p>
                 </div>
-                <Activity className="h-8 w-8 text-accent/60" />
+                <Activity className="h-8 w-8 text-chart-bull" />
+              </div>
+            </Card>
+
+            <Card className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-muted-foreground text-sm font-medium">Inactive Users</p>
+                  <p className="text-2xl font-bold text-chart-bear">
+                    {analytics.inactiveUsers.toLocaleString()}
+                  </p>
+                </div>
+                <Activity className="h-8 w-8 text-chart-bear" />
               </div>
             </Card>
 
@@ -185,23 +197,29 @@ export function AdminDashboard() {
                 </div>
               ) : (
                 <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
                     <Card className="p-4 bg-gradient-primary">
                       <div className="text-center">
                         <p className="text-2xl font-bold text-primary-foreground">{analytics.totalUsers}</p>
                         <p className="text-primary-foreground/80 text-sm">Total Users</p>
                       </div>
                     </Card>
-                    <Card className="p-4">
+                    <Card className="p-4 border-chart-bull/50">
                       <div className="text-center">
-                        <p className="text-2xl font-bold text-chart-bull">{analytics.adminUsers}</p>
-                        <p className="text-muted-foreground text-sm">Admin Users</p>
+                        <p className="text-2xl font-bold text-chart-bull">{analytics.activeUsers}</p>
+                        <p className="text-muted-foreground text-sm">Active Users</p>
+                      </div>
+                    </Card>
+                    <Card className="p-4 border-chart-bear/50">
+                      <div className="text-center">
+                        <p className="text-2xl font-bold text-chart-bear">{analytics.inactiveUsers}</p>
+                        <p className="text-muted-foreground text-sm">Inactive Users</p>
                       </div>
                     </Card>
                     <Card className="p-4">
                       <div className="text-center">
-                        <p className="text-2xl font-bold">{analytics.regularUsers}</p>
-                        <p className="text-muted-foreground text-sm">Regular Users</p>
+                        <p className="text-2xl font-bold text-accent">{analytics.adminUsers}</p>
+                        <p className="text-muted-foreground text-sm">Admin Users</p>
                       </div>
                     </Card>
                   </div>
