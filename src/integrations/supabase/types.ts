@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      identity_verifications: {
+        Row: {
+          admin_notes: string | null
+          document_back_url: string | null
+          document_front_url: string | null
+          document_type: string
+          id: string
+          reviewed_at: string | null
+          reviewed_by: string | null
+          submitted_at: string
+          user_id: string
+          verification_status: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          document_back_url?: string | null
+          document_front_url?: string | null
+          document_type: string
+          id?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          submitted_at?: string
+          user_id: string
+          verification_status?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          document_back_url?: string | null
+          document_front_url?: string | null
+          document_type?: string
+          id?: string
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          submitted_at?: string
+          user_id?: string
+          verification_status?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           city: string | null
@@ -79,6 +118,83 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      user_wallets: {
+        Row: {
+          balance: number
+          created_at: string
+          currency: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          currency?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      wallet_transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          description: string | null
+          id: string
+          payment_method: string | null
+          reference_id: string | null
+          status: string
+          transaction_type: string
+          user_id: string
+          wallet_id: string
+          whatsapp_number: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          payment_method?: string | null
+          reference_id?: string | null
+          status?: string
+          transaction_type: string
+          user_id: string
+          wallet_id: string
+          whatsapp_number?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          description?: string | null
+          id?: string
+          payment_method?: string | null
+          reference_id?: string | null
+          status?: string
+          transaction_type?: string
+          user_id?: string
+          wallet_id?: string
+          whatsapp_number?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "wallet_transactions_wallet_id_fkey"
+            columns: ["wallet_id"]
+            isOneToOne: false
+            referencedRelation: "user_wallets"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

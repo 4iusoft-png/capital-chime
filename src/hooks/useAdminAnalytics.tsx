@@ -10,6 +10,9 @@ interface AdminAnalytics {
   newUsersThisMonth: number;
   adminUsers: number;
   regularUsers: number;
+  totalWalletBalance: number;
+  pendingVerifications: number;
+  pendingTransactions: number;
   usersByDate: Array<{ date: string; count: number }>;
   loading: boolean;
   error: string | null;
@@ -139,6 +142,9 @@ export function useAdminAnalytics(): AdminAnalytics {
         newUsersThisMonth: newUsersThisMonth || 0,
         adminUsers: adminUsers || 0,
         regularUsers: regularUsers || 0,
+        totalWalletBalance: 0,
+        pendingVerifications: 0,
+        pendingTransactions: 0,
         usersByDate: usersByDateArray,
         loading: false,
         error: null,
