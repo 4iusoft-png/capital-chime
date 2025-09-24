@@ -61,6 +61,9 @@ export function WhatsAppPayment({ onSuccess }: { onSuccess: () => void }) {
         throw new Error("Failed to fetch wallet information");
       }
 
+      // Generate reference ID
+      const referenceId = `WA-${Date.now()}`;
+
       // Create transaction record
       const { error: transactionError } = await supabase
         .from('wallet_transactions')
@@ -73,16 +76,28 @@ export function WhatsAppPayment({ onSuccess }: { onSuccess: () => void }) {
           whatsapp_number: whatsappNumber,
           status: 'pending',
           description: `WhatsApp payment deposit via ${whatsappNumber}`,
-          reference_id: `WA-${Date.now()}`
+          reference_id: referenceId
         });
 
       if (transactionError) {
         throw new Error("Failed to create transaction");
       }
 
+      // Create WhatsApp message with payment details
+      const message = `Hello! I want to make a payment with the following details:
+Amount: $${numericAmount}
+Reference ID: ${referenceId}
+My Contact: ${whatsappNumber}`;
+      
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/+17134542420?text=${encodedMessage}`;
+
+      // Redirect to WhatsApp
+      window.open(whatsappUrl, '_blank');
+
       toast({
-        title: "Payment request submitted",
-        description: "Your payment request has been submitted. Please send the payment via WhatsApp and wait for confirmation.",
+        title: "Redirecting to WhatsApp",
+        description: "Your payment request has been submitted. Complete the payment via WhatsApp.",
       });
 
       setAmount("");

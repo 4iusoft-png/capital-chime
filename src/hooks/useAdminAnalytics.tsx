@@ -136,6 +136,32 @@ export function useAdminAnalytics(): AdminAnalytics {
         count,
       }));
 
+      // Get total wallet balance
+      const { data: walletsData, error: walletBalanceError } = await supabase
+        .from('user_wallets')
+        .select('balance');
+
+      if (walletBalanceError) throw walletBalanceError;
+
+      const totalWalletBalance = walletsData?.reduce((sum, wallet) => 
+        sum + parseFloat(wallet.balance?.toString() || '0'), 0) || 0;
+
+      // Get pending verifications count
+      const { count: pendingVerifications, error: pendingVerError } = await supabase
+        .from('identity_verifications')
+        .select('*', { count: 'exact', head: true })
+        .eq('verification_status', 'pending');
+
+      if (pendingVerError) throw pendingVerError;
+
+      // Get pending transactions count
+      const { count: pendingTransactions, error: pendingTransError } = await supabase
+        .from('wallet_transactions')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'pending');
+
+      if (pendingTransError) throw pendingTransError;
+
       setAnalytics({
         totalUsers: totalUsers || 0,
         activeUsers: activeUsers || 0,
@@ -145,9 +171,9 @@ export function useAdminAnalytics(): AdminAnalytics {
         newUsersThisMonth: newUsersThisMonth || 0,
         adminUsers: adminUsers || 0,
         regularUsers: regularUsers || 0,
-        totalWalletBalance: 0,
-        pendingVerifications: 0,
-        pendingTransactions: 0,
+        totalWalletBalance,
+        pendingVerifications: pendingVerifications || 0,
+        pendingTransactions: pendingTransactions || 0,
         usersByDate: usersByDateArray,
         loading: false,
         error: null,
