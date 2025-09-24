@@ -220,7 +220,6 @@ export function AdminDashboard() {
               </Card>
             ))}
           </div>
-          </div>
         ) : analytics.error ? (
           <Card className="p-6 mb-8 border-red-500/50 bg-red-500/5">
             <p className="text-red-500">Error loading analytics: {analytics.error}</p>
