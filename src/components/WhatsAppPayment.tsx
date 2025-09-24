@@ -50,15 +50,37 @@ export function WhatsAppPayment({ onSuccess }: { onSuccess: () => void }) {
     setLoading(true);
 
     try {
-      // Get user's wallet
-      const { data: wallet, error: walletError } = await supabase
+      // Try to get user's wallet, create if doesn't exist
+      let { data: wallet, error: walletError } = await supabase
         .from('user_wallets')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
+
+      // If wallet doesn't exist, create one
+      if (!wallet && !walletError) {
+        const { data: newWallet, error: createError } = await supabase
+          .from('user_wallets')
+          .insert({
+            user_id: user.id,
+            balance: 0.00,
+            currency: 'USD'
+          })
+          .select()
+          .single();
+
+        if (createError) {
+          throw new Error("Failed to create wallet");
+        }
+        wallet = newWallet;
+      }
 
       if (walletError) {
         throw new Error("Failed to fetch wallet information");
+      }
+
+      if (!wallet) {
+        throw new Error("Unable to access or create wallet");
       }
 
       // Generate reference ID

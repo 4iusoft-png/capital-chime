@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -19,12 +19,46 @@ export function IdentityVerification({ onSuccess }: IdentityVerificationProps) {
   const [backFile, setBackFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [verification, setVerification] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
   
   const frontInputRef = useRef<HTMLInputElement>(null);
   const backInputRef = useRef<HTMLInputElement>(null);
   
   const { toast } = useToast();
   const { user } = useAuth();
+
+  useEffect(() => {
+    fetchVerification();
+  }, [user?.id]);
+
+  const fetchVerification = async () => {
+    if (!user?.id) return;
+
+    try {
+      setLoading(true);
+      
+      const { data, error } = await supabase
+        .from('identity_verifications')
+        .select('*')
+        .eq('user_id', user.id)
+        .maybeSingle();
+
+      if (error && error.code !== 'PGRST116') {
+        throw error;
+      }
+
+      setVerification(data);
+    } catch (error) {
+      console.error('Error fetching verification:', error);
+      toast({
+        title: "Error",
+        description: "Failed to load verification status",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const documentTypes = [
     { value: "passport", label: "Passport" },

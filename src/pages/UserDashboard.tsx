@@ -28,12 +28,29 @@ export function UserDashboard() {
     if (!user) return;
 
     try {
-      // Fetch wallet
-      const { data: walletData } = await supabase
+      // Try to fetch wallet, create if doesn't exist
+      let { data: walletData, error: walletError } = await supabase
         .from('user_wallets')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
+
+      // If wallet doesn't exist, create one
+      if (!walletData && !walletError) {
+        const { data: newWallet, error: createError } = await supabase
+          .from('user_wallets')
+          .insert({
+            user_id: user.id,
+            balance: 0.00,
+            currency: 'USD'
+          })
+          .select()
+          .single();
+
+        if (!createError) {
+          walletData = newWallet;
+        }
+      }
 
       // Fetch transactions
       const { data: transactionData } = await supabase
@@ -43,12 +60,12 @@ export function UserDashboard() {
         .order('created_at', { ascending: false })
         .limit(10);
 
-      // Fetch verification status
+      // Fetch verification status - use maybeSingle since it may not exist
       const { data: verificationData } = await supabase
         .from('identity_verifications')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
 
       setWallet(walletData);
       setTransactions(transactionData || []);
