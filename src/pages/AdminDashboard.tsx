@@ -113,9 +113,9 @@ export function AdminDashboard() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                PayForce Admin
+                Admin Dashboard
               </h1>
-              <p className="text-muted-foreground">System Administration Panel - {user?.email}</p>
+              <p className="text-muted-foreground">User Management & Verification System - {user?.email}</p>
             </div>
             <div className="flex items-center gap-4">
               <Button variant="outline" size="icon">
