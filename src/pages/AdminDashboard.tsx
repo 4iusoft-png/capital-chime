@@ -12,18 +12,12 @@ import { useAdminAnalytics } from "@/hooks/useAdminAnalytics";
 import { UserList } from "@/components/UserList";
 import { 
   Users, 
-  Wallet,
   Shield,
   LogOut,
   CheckCircle,
   XCircle,
-  Eye,
-  DollarSign,
   Settings,
-  Activity,
-  TrendingUp,
-  UserPlus,
-  BarChart3
+  Activity
 } from "lucide-react";
 
 export function AdminDashboard() {
@@ -31,8 +25,6 @@ export function AdminDashboard() {
   const { toast } = useToast();
   const analytics = useAdminAnalytics();
   const [verifications, setVerifications] = useState<any[]>([]);
-  const [wallets, setWallets] = useState<any[]>([]);
-  const [transactions, setTransactions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -41,7 +33,7 @@ export function AdminDashboard() {
 
   const fetchAdminData = async () => {
     try {
-      // Fetch pending verifications with user profiles
+      // Fetch verifications with user profiles
       const { data: verificationsData } = await supabase
         .from('identity_verifications')
         .select(`
@@ -50,28 +42,7 @@ export function AdminDashboard() {
         `)
         .order('submitted_at', { ascending: false });
 
-      // Fetch wallets with user profiles
-      const { data: walletsData } = await supabase
-        .from('user_wallets')
-        .select(`
-          *,
-          profiles!inner(email, first_name, last_name, is_active)
-        `)
-        .order('created_at', { ascending: false });
-
-      // Fetch recent transactions
-      const { data: transactionsData } = await supabase
-        .from('wallet_transactions')
-        .select(`
-          *,
-          profiles!inner(email, first_name, last_name)
-        `)
-        .order('created_at', { ascending: false })
-        .limit(20);
-
       setVerifications(verificationsData || []);
-      setWallets(walletsData || []);
-      setTransactions(transactionsData || []);
     } catch (error) {
       console.error('Error fetching admin data:', error);
       toast({
@@ -122,53 +93,6 @@ export function AdminDashboard() {
     }
   };
 
-  const handleTransactionUpdate = async (transactionId: string, status: string) => {
-    try {
-      const transaction = transactions.find(t => t.id === transactionId);
-      if (!transaction) return;
-
-      // Update transaction status
-      const { error: transactionError } = await supabase
-        .from('wallet_transactions')
-        .update({ status })
-        .eq('id', transactionId);
-
-      if (transactionError) throw transactionError;
-
-      // If approving a deposit, update wallet balance
-      if (status === 'completed' && transaction.transaction_type === 'deposit') {
-        const { data: currentWallet } = await supabase
-          .from('user_wallets')
-          .select('balance')
-          .eq('id', transaction.wallet_id)
-          .single();
-        
-        if (currentWallet) {
-          const newBalance = parseFloat(currentWallet.balance.toString()) + parseFloat(transaction.amount.toString());
-          const { error: walletError } = await supabase
-            .from('user_wallets')
-            .update({ balance: newBalance })
-            .eq('id', transaction.wallet_id);
-
-          if (walletError) throw walletError;
-        }
-      }
-
-      toast({
-        title: "Transaction updated",
-        description: `Transaction ${status} successfully`,
-      });
-
-      fetchAdminData();
-    } catch (error) {
-      console.error('Error updating transaction:', error);
-      toast({
-        title: "Error",
-        description: "Failed to update transaction",
-        variant: "destructive",
-      });
-    }
-  };
 
   if (loading) {
     return (
@@ -213,8 +137,8 @@ export function AdminDashboard() {
       <main className="container mx-auto px-6 py-8">
         {/* Admin Stats Overview */}
         {analytics.loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 mb-8">
-            {[...Array(5)].map((_, i) => (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
+            {[...Array(3)].map((_, i) => (
               <Card key={i} className="p-6 animate-pulse">
                 <div className="h-16 bg-muted rounded"></div>
               </Card>
@@ -225,7 +149,7 @@ export function AdminDashboard() {
             <p className="text-red-500">Error loading analytics: {analytics.error}</p>
           </Card>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             <Card className="p-6 bg-gradient-primary">
               <div className="flex items-center justify-between">
                 <div>
@@ -253,18 +177,6 @@ export function AdminDashboard() {
             <Card className="p-6">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-muted-foreground text-sm font-medium">Total Balance</p>
-                  <p className="text-2xl font-bold text-chart-bull">
-                    ${analytics.totalWalletBalance?.toFixed(2) || '0.00'}
-                  </p>
-                </div>
-                <Wallet className="h-8 w-8 text-chart-bull" />
-              </div>
-            </Card>
-
-            <Card className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
                   <p className="text-muted-foreground text-sm font-medium">Pending Verifications</p>
                   <p className="text-2xl font-bold text-accent">
                     {analytics.pendingVerifications || 0}
@@ -273,27 +185,13 @@ export function AdminDashboard() {
                 <Shield className="h-8 w-8 text-accent" />
               </div>
             </Card>
-
-            <Card className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-muted-foreground text-sm font-medium">Pending Payments</p>
-                  <p className="text-2xl font-bold text-accent">
-                    {analytics.pendingTransactions || 0}
-                  </p>
-                </div>
-                <DollarSign className="h-8 w-8 text-accent" />
-              </div>
-            </Card>
           </div>
         )}
 
         <Tabs defaultValue="users" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-4">
+          <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="users">User Management</TabsTrigger>
-            <TabsTrigger value="wallets">Wallet Overview</TabsTrigger>
-            <TabsTrigger value="verifications">Identity Verifications</TabsTrigger>
-            <TabsTrigger value="transactions">Transaction Monitoring</TabsTrigger>
+            <TabsTrigger value="verifications">Verification Documents</TabsTrigger>
           </TabsList>
 
           <TabsContent value="users" className="space-y-6">
@@ -356,171 +254,77 @@ export function AdminDashboard() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="wallets" className="space-y-6">
-            <Card className="p-6">
-              <div className="flex items-center gap-2 mb-6">
-                <Wallet className="h-5 w-5" />
-                <h3 className="text-lg font-semibold">User Wallets</h3>
-              </div>
-              
-              <div className="space-y-4">
-                {wallets.map((wallet) => (
-                  <div key={wallet.id} className="flex items-center justify-between p-4 border border-border rounded-lg">
-                    <div className="flex items-center gap-4">
-                      <div className="p-2 rounded-full bg-primary/10">
-                        <DollarSign className="h-4 w-4 text-primary" />
-                      </div>
-                      <div>
-                        <p className="font-medium">{wallet.profiles.email}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {wallet.profiles.first_name} {wallet.profiles.last_name}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="text-right">
-                      <p className="font-semibold">${wallet.balance}</p>
-                      <div className="flex items-center gap-2">
-                        <Badge 
-                          variant={wallet.profiles.is_active ? "default" : "destructive"}
-                          className={wallet.profiles.is_active ? "bg-chart-bull" : ""}
-                        >
-                          {wallet.profiles.is_active ? "Active" : "Inactive"}
-                        </Badge>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </TabsContent>
-
           <TabsContent value="verifications" className="space-y-6">
             <Card className="p-6">
               <div className="flex items-center gap-2 mb-6">
                 <Shield className="h-5 w-5" />
-                <h3 className="text-lg font-semibold">Identity Verifications</h3>
+                <h3 className="text-lg font-semibold">Verification Documents</h3>
               </div>
               
-              <div className="space-y-4">
-                {verifications.map((verification) => (
-                  <div key={verification.id} className="p-4 border border-border rounded-lg">
-                    <div className="flex items-start justify-between mb-4">
-                      <div>
-                        <p className="font-medium">{verification.profiles.email}</p>
-                        <p className="text-sm text-muted-foreground capitalize">
-                          {verification.document_type.replace('_', ' ')} • 
-                          Submitted {new Date(verification.submitted_at).toLocaleDateString()}
-                        </p>
-                      </div>
-                      <Badge 
-                        variant={
-                          verification.verification_status === 'approved' 
-                            ? 'default' 
-                            : verification.verification_status === 'rejected' 
-                            ? 'destructive' 
-                            : 'outline'
-                        }
-                        className={verification.verification_status === 'approved' ? "bg-chart-bull" : ""}
-                      >
-                        {verification.verification_status}
-                      </Badge>
-                    </div>
-                    
-                    {verification.verification_status === 'pending' && (
-                      <div className="flex gap-2">
-                        <Button 
-                          size="sm" 
-                          className="bg-chart-bull"
-                          onClick={() => handleVerificationUpdate(verification.id, 'approved')}
-                        >
-                          <CheckCircle className="h-4 w-4 mr-1" />
-                          Approve
-                        </Button>
-                        <Button 
-                          size="sm" 
-                          variant="destructive"
-                          onClick={() => handleVerificationUpdate(verification.id, 'rejected', 'Documents do not meet requirements')}
-                        >
-                          <XCircle className="h-4 w-4 mr-1" />
-                          Reject
-                        </Button>
-                      </div>
-                    )}
-                    
-                    {verification.admin_notes && (
-                      <div className="mt-3 p-3 bg-muted/50 rounded">
-                        <p className="text-sm"><strong>Admin Notes:</strong> {verification.admin_notes}</p>
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="transactions" className="space-y-6">
-            <Card className="p-6">
-              <h3 className="text-lg font-semibold mb-6">Transaction Monitoring</h3>
-              
-              <div className="space-y-3">
-                {transactions.map((transaction) => (
-                  <div key={transaction.id} className="flex items-center justify-between p-4 border border-border rounded-lg">
-                    <div className="flex items-center gap-4">
-                      <div className={`p-2 rounded-full ${
-                        transaction.transaction_type === 'deposit' 
-                          ? 'bg-chart-bull/10 text-chart-bull' 
-                          : 'bg-chart-bear/10 text-chart-bear'
-                      }`}>
-                        {transaction.transaction_type === 'deposit' ? '+' : '-'}
-                      </div>
-                      <div>
-                        <p className="font-medium">{transaction.profiles.email}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {transaction.description}
-                        </p>
-                        <p className="text-xs text-muted-foreground">
-                          {new Date(transaction.created_at).toLocaleString()}
-                        </p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="text-right">
-                        <p className="font-semibold">${transaction.amount}</p>
+              {verifications.length === 0 ? (
+                <div className="text-center py-12">
+                  <Shield className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground">No verification documents submitted yet</p>
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {verifications.map((verification) => (
+                    <div key={verification.id} className="p-4 border border-border rounded-lg">
+                      <div className="flex items-start justify-between mb-4">
+                        <div>
+                          <p className="font-medium">{verification.profiles.email}</p>
+                          <p className="text-sm text-muted-foreground">
+                            {verification.profiles.first_name} {verification.profiles.last_name}
+                          </p>
+                          <p className="text-sm text-muted-foreground capitalize mt-1">
+                            {verification.document_type.replace('_', ' ')} • 
+                            Submitted {new Date(verification.submitted_at).toLocaleDateString()}
+                          </p>
+                        </div>
                         <Badge 
                           variant={
-                            transaction.status === 'completed' 
+                            verification.verification_status === 'approved' 
                               ? 'default' 
-                              : transaction.status === 'failed' 
+                              : verification.verification_status === 'rejected' 
                               ? 'destructive' 
                               : 'outline'
                           }
-                          className={transaction.status === 'completed' ? "bg-chart-bull" : ""}
+                          className={verification.verification_status === 'approved' ? "bg-chart-bull" : ""}
                         >
-                          {transaction.status}
+                          {verification.verification_status}
                         </Badge>
                       </div>
-                      {transaction.status === 'pending' && (
-                        <div className="flex gap-1">
+                      
+                      {verification.verification_status === 'pending' && (
+                        <div className="flex gap-2">
                           <Button 
                             size="sm" 
                             className="bg-chart-bull"
-                            onClick={() => handleTransactionUpdate(transaction.id, 'completed')}
+                            onClick={() => handleVerificationUpdate(verification.id, 'approved')}
                           >
+                            <CheckCircle className="h-4 w-4 mr-1" />
                             Approve
                           </Button>
                           <Button 
                             size="sm" 
                             variant="destructive"
-                            onClick={() => handleTransactionUpdate(transaction.id, 'failed')}
+                            onClick={() => handleVerificationUpdate(verification.id, 'rejected', 'Documents do not meet requirements')}
                           >
+                            <XCircle className="h-4 w-4 mr-1" />
                             Reject
                           </Button>
                         </div>
                       )}
+                      
+                      {verification.admin_notes && (
+                        <div className="mt-3 p-3 bg-muted/50 rounded">
+                          <p className="text-sm"><strong>Admin Notes:</strong> {verification.admin_notes}</p>
+                        </div>
+                      )}
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </Card>
           </TabsContent>
         </Tabs>
