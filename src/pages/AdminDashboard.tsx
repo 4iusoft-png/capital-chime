@@ -135,59 +135,6 @@ export function AdminDashboard() {
       </header>
 
       <main className="container mx-auto px-6 py-8">
-        {/* Admin Stats Overview */}
-        {analytics.loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            {[...Array(3)].map((_, i) => (
-              <Card key={i} className="p-6 animate-pulse">
-                <div className="h-16 bg-muted rounded"></div>
-              </Card>
-            ))}
-          </div>
-        ) : analytics.error ? (
-          <Card className="p-6 mb-8 border-red-500/50 bg-red-500/5">
-            <p className="text-red-500">Error loading analytics: {analytics.error}</p>
-          </Card>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
-            <Card className="p-6 bg-gradient-primary">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-primary-foreground/80 text-sm font-medium">Total Users</p>
-                  <p className="text-2xl font-bold text-primary-foreground">
-                    {analytics.totalUsers.toLocaleString()}
-                  </p>
-                </div>
-                <Users className="h-8 w-8 text-primary-foreground/60" />
-              </div>
-            </Card>
-
-            <Card className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-muted-foreground text-sm font-medium">Active Users</p>
-                  <p className="text-2xl font-bold text-chart-bull animate-price-pulse">
-                    {analytics.activeUsers.toLocaleString()}
-                  </p>
-                </div>
-                <Activity className="h-8 w-8 text-chart-bull" />
-              </div>
-            </Card>
-
-            <Card className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-muted-foreground text-sm font-medium">Pending Verifications</p>
-                  <p className="text-2xl font-bold text-accent">
-                    {analytics.pendingVerifications || 0}
-                  </p>
-                </div>
-                <Shield className="h-8 w-8 text-accent" />
-              </div>
-            </Card>
-          </div>
-        )}
-
         <Tabs defaultValue="users" className="space-y-6">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="users">User Management</TabsTrigger>
