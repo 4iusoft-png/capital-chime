@@ -24,7 +24,7 @@ export function AdminDashboard() {
   const { user, signOut } = useAuth();
   const { toast } = useToast();
   const analytics = useAdminAnalytics();
-  const [verifications, setVerifications] = useState<any[]>([]);
+  const [transactions, setTransactions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -33,16 +33,16 @@ export function AdminDashboard() {
 
   const fetchAdminData = async () => {
     try {
-      // Fetch verifications with user profiles
-      const { data: verificationsData } = await supabase
-        .from('identity_verifications')
+      // Fetch transactions with user profiles
+      const { data: transactionsData } = await supabase
+        .from('wallet_transactions')
         .select(`
           *,
           profiles!inner(email, first_name, last_name)
         `)
-        .order('submitted_at', { ascending: false });
+        .order('created_at', { ascending: false });
 
-      setVerifications(verificationsData || []);
+      setTransactions(transactionsData || []);
     } catch (error) {
       console.error('Error fetching admin data:', error);
       toast({
@@ -63,31 +63,26 @@ export function AdminDashboard() {
     });
   };
 
-  const handleVerificationUpdate = async (verificationId: string, status: string, notes?: string) => {
+  const handleTransactionStatusUpdate = async (transactionId: string, status: string) => {
     try {
       const { error } = await supabase
-        .from('identity_verifications')
-        .update({
-          verification_status: status,
-          admin_notes: notes,
-          reviewed_at: new Date().toISOString(),
-          reviewed_by: user?.id
-        })
-        .eq('id', verificationId);
+        .from('wallet_transactions')
+        .update({ status })
+        .eq('id', transactionId);
 
       if (error) throw error;
 
       toast({
-        title: "Verification updated",
-        description: `Verification ${status} successfully`,
+        title: "Transaction updated",
+        description: `Transaction ${status} successfully`,
       });
 
       fetchAdminData();
     } catch (error) {
-      console.error('Error updating verification:', error);
+      console.error('Error updating transaction:', error);
       toast({
         title: "Error",
-        description: "Failed to update verification",
+        description: "Failed to update transaction",
         variant: "destructive",
       });
     }
@@ -115,7 +110,7 @@ export function AdminDashboard() {
               <h1 className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
                 Admin Dashboard
               </h1>
-              <p className="text-muted-foreground">User Management & Verification System - {user?.email}</p>
+              <p className="text-muted-foreground">User Analytics & Payment Management - {user?.email}</p>
             </div>
             <div className="flex items-center gap-4">
               <Button variant="outline" size="icon">
@@ -135,144 +130,136 @@ export function AdminDashboard() {
       </header>
 
       <main className="container mx-auto px-6 py-8">
-        <Tabs defaultValue="users" className="space-y-6">
+        <Tabs defaultValue="statistics" className="space-y-6">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="users">User Management</TabsTrigger>
-            <TabsTrigger value="verifications">Verification Documents</TabsTrigger>
+            <TabsTrigger value="statistics">User Statistics</TabsTrigger>
+            <TabsTrigger value="payments">Payment History</TabsTrigger>
           </TabsList>
 
-          <TabsContent value="users" className="space-y-6">
-            <Card className="p-6">
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-semibold">User Management</h3>
-                <Button className="bg-gradient-primary">Add New User</Button>
+          <TabsContent value="statistics" className="space-y-6">
+            <div className="space-y-6">
+              <div className="flex items-center gap-2">
+                <Activity className="h-5 w-5" />
+                <h3 className="text-lg font-semibold">User Analytics</h3>
               </div>
               
               {analytics.loading ? (
                 <div className="space-y-4">
-                  {[...Array(4)].map((_, i) => (
-                    <div key={i} className="flex items-center justify-between p-4 border border-border rounded-lg animate-pulse">
-                      <div className="flex items-center gap-4">
-                        <div className="w-10 h-10 bg-muted rounded-full"></div>
-                        <div className="space-y-2">
-                          <div className="h-4 w-32 bg-muted rounded"></div>
-                          <div className="h-3 w-48 bg-muted rounded"></div>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-4">
-                        <div className="h-6 w-16 bg-muted rounded"></div>
-                        <div className="h-8 w-20 bg-muted rounded"></div>
-                      </div>
-                    </div>
-                  ))}
+                  <div className="animate-pulse">
+                    <div className="h-20 bg-muted rounded"></div>
+                  </div>
                 </div>
               ) : (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-                    <Card className="p-4 bg-gradient-primary">
-                      <div className="text-center">
-                        <p className="text-2xl font-bold text-primary-foreground">{analytics.totalUsers}</p>
-                        <p className="text-primary-foreground/80 text-sm">Total Users</p>
-                      </div>
-                    </Card>
-                    <Card className="p-4 border-chart-bull/50">
-                      <div className="text-center">
-                        <p className="text-2xl font-bold text-chart-bull">{analytics.activeUsers}</p>
-                        <p className="text-muted-foreground text-sm">Active Users</p>
-                      </div>
-                    </Card>
-                    <Card className="p-4 border-chart-bear/50">
-                      <div className="text-center">
-                        <p className="text-2xl font-bold text-chart-bear">{analytics.inactiveUsers}</p>
-                        <p className="text-muted-foreground text-sm">Inactive Users</p>
-                      </div>
-                    </Card>
-                    <Card className="p-4">
-                      <div className="text-center">
-                        <p className="text-2xl font-bold text-accent">{analytics.adminUsers}</p>
-                        <p className="text-muted-foreground text-sm">Admin Users</p>
-                      </div>
-                    </Card>
+                <div className="space-y-6">
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4 p-6 border border-border rounded-lg">
+                    <div>
+                      <p className="text-sm text-muted-foreground">Total Users</p>
+                      <p className="text-2xl font-bold">{analytics.totalUsers}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Active Users</p>
+                      <p className="text-2xl font-bold text-chart-bull">{analytics.activeUsers}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Inactive Users</p>
+                      <p className="text-2xl font-bold text-chart-bear">{analytics.inactiveUsers}</p>
+                    </div>
+                    <div>
+                      <p className="text-sm text-muted-foreground">Admin Users</p>
+                      <p className="text-2xl font-bold">{analytics.adminUsers}</p>
+                    </div>
                   </div>
                   
                   <UserList />
                 </div>
               )}
-            </Card>
+            </div>
           </TabsContent>
 
-          <TabsContent value="verifications" className="space-y-6">
-            <Card className="p-6">
-              <div className="flex items-center gap-2 mb-6">
-                <Shield className="h-5 w-5" />
-                <h3 className="text-lg font-semibold">Verification Documents</h3>
+          <TabsContent value="payments" className="space-y-6">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <Activity className="h-5 w-5" />
+                <h3 className="text-lg font-semibold">Payment Transaction History</h3>
               </div>
               
-              {verifications.length === 0 ? (
-                <div className="text-center py-12">
-                  <Shield className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-muted-foreground">No verification documents submitted yet</p>
+              {transactions.length === 0 ? (
+                <div className="text-center py-12 border border-border rounded-lg">
+                  <Activity className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
+                  <p className="text-muted-foreground">No payment transactions yet</p>
                 </div>
               ) : (
-                <div className="space-y-4">
-                  {verifications.map((verification) => (
-                    <div key={verification.id} className="p-4 border border-border rounded-lg">
-                      <div className="flex items-start justify-between mb-4">
-                        <div>
-                          <p className="font-medium">{verification.profiles.email}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {verification.profiles.first_name} {verification.profiles.last_name}
-                          </p>
-                          <p className="text-sm text-muted-foreground capitalize mt-1">
-                            {verification.document_type.replace('_', ' ')} • 
-                            Submitted {new Date(verification.submitted_at).toLocaleDateString()}
-                          </p>
-                        </div>
-                        <Badge 
-                          variant={
-                            verification.verification_status === 'approved' 
-                              ? 'default' 
-                              : verification.verification_status === 'rejected' 
-                              ? 'destructive' 
-                              : 'outline'
-                          }
-                          className={verification.verification_status === 'approved' ? "bg-chart-bull" : ""}
-                        >
-                          {verification.verification_status}
-                        </Badge>
-                      </div>
-                      
-                      {verification.verification_status === 'pending' && (
-                        <div className="flex gap-2">
-                          <Button 
-                            size="sm" 
-                            className="bg-chart-bull"
-                            onClick={() => handleVerificationUpdate(verification.id, 'approved')}
-                          >
-                            <CheckCircle className="h-4 w-4 mr-1" />
-                            Approve
-                          </Button>
-                          <Button 
-                            size="sm" 
-                            variant="destructive"
-                            onClick={() => handleVerificationUpdate(verification.id, 'rejected', 'Documents do not meet requirements')}
-                          >
-                            <XCircle className="h-4 w-4 mr-1" />
-                            Reject
-                          </Button>
-                        </div>
-                      )}
-                      
-                      {verification.admin_notes && (
-                        <div className="mt-3 p-3 bg-muted/50 rounded">
-                          <p className="text-sm"><strong>Admin Notes:</strong> {verification.admin_notes}</p>
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                <div className="overflow-x-auto border border-border rounded-lg">
+                  <table className="w-full">
+                    <thead className="bg-muted/50">
+                      <tr>
+                        <th className="text-left p-4 text-sm font-medium">User</th>
+                        <th className="text-left p-4 text-sm font-medium">Type</th>
+                        <th className="text-left p-4 text-sm font-medium">Amount</th>
+                        <th className="text-left p-4 text-sm font-medium">Method</th>
+                        <th className="text-left p-4 text-sm font-medium">Status</th>
+                        <th className="text-left p-4 text-sm font-medium">Date</th>
+                        <th className="text-left p-4 text-sm font-medium">Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {transactions.map((transaction) => (
+                        <tr key={transaction.id} className="border-t border-border">
+                          <td className="p-4">
+                            <div>
+                              <p className="font-medium">{transaction.profiles.email}</p>
+                              <p className="text-sm text-muted-foreground">
+                                {transaction.profiles.first_name} {transaction.profiles.last_name}
+                              </p>
+                            </div>
+                          </td>
+                          <td className="p-4 capitalize">{transaction.transaction_type}</td>
+                          <td className="p-4 font-medium">${Number(transaction.amount).toFixed(2)}</td>
+                          <td className="p-4 capitalize">{transaction.payment_method}</td>
+                          <td className="p-4">
+                            <Badge 
+                              variant={
+                                transaction.status === 'completed' 
+                                  ? 'default' 
+                                  : transaction.status === 'rejected' 
+                                  ? 'destructive' 
+                                  : 'outline'
+                              }
+                              className={transaction.status === 'completed' ? "bg-chart-bull" : ""}
+                            >
+                              {transaction.status}
+                            </Badge>
+                          </td>
+                          <td className="p-4 text-sm text-muted-foreground">
+                            {new Date(transaction.created_at).toLocaleDateString()}
+                          </td>
+                          <td className="p-4">
+                            {transaction.status === 'pending' && (
+                              <div className="flex gap-2">
+                                <Button 
+                                  size="sm" 
+                                  className="bg-chart-bull"
+                                  onClick={() => handleTransactionStatusUpdate(transaction.id, 'completed')}
+                                >
+                                  <CheckCircle className="h-4 w-4" />
+                                </Button>
+                                <Button 
+                                  size="sm" 
+                                  variant="destructive"
+                                  onClick={() => handleTransactionStatusUpdate(transaction.id, 'rejected')}
+                                >
+                                  <XCircle className="h-4 w-4" />
+                                </Button>
+                              </div>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
               )}
-            </Card>
+            </div>
           </TabsContent>
         </Tabs>
       </main>
