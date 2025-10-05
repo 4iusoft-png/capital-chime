@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Badge } from '@/components/ui/badge';
 import { useAuth } from '@/hooks/useAuth';
 import { useToast } from '@/hooks/use-toast';
 import { TrendingUp, Loader2 } from 'lucide-react';
@@ -55,8 +56,8 @@ const Auth = () => {
         });
       } else if (isSignUp) {
         toast({
-          title: "Success!",
-          description: "Please check your email to confirm your account.",
+          title: "Success! 🎉",
+          description: "Your $1,000 welcome bonus has been credited! Please check your email to confirm your account.",
         });
       } else {
         toast({
@@ -95,6 +96,14 @@ const Auth = () => {
               : 'Sign in to access your dashboard'
             }
           </p>
+          {isSignUp && (
+            <div className="mt-4 inline-flex items-center gap-2 bg-gradient-primary px-4 py-2 rounded-full shadow-trading animate-bounce-subtle">
+              <span className="text-lg">💰</span>
+              <span className="text-sm font-semibold text-primary-foreground">
+                Get $1,000 Welcome Bonus Instantly!
+              </span>
+            </div>
+          )}
         </div>
 
         <Card className="border border-border/50 shadow-trading">
@@ -102,7 +111,7 @@ const Auth = () => {
             <CardTitle>{isSignUp ? 'Sign Up' : 'Sign In'}</CardTitle>
             <CardDescription>
               {isSignUp 
-                ? 'Enter your email and password to create an account'
+                ? 'Complete the form below to receive your $1,000 trading bonus'
                 : 'Enter your credentials to access your account'
               }
             </CardDescription>
@@ -220,7 +229,7 @@ const Auth = () => {
                 disabled={loading}
               >
                 {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                {isSignUp ? 'Create Account' : 'Sign In'}
+                {isSignUp ? 'Claim $1,000 & Create Account' : 'Sign In'}
               </Button>
             </form>
 

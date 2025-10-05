@@ -33,9 +33,14 @@ const Index = () => {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="space-y-8 animate-fade-in">
             <div className="space-y-4">
-              <Badge className="bg-accent/20 text-accent border-accent/30 animate-bounce-subtle">
-                🚀 Next-Gen Trading Platform
-              </Badge>
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Badge className="bg-accent/20 text-accent border-accent/30 animate-bounce-subtle">
+                  🚀 Next-Gen Trading Platform
+                </Badge>
+                <Badge className="bg-gradient-primary text-primary-foreground shadow-trading animate-price-pulse text-base px-4 py-1">
+                  💰 FREE $1,000 Welcome Bonus
+                </Badge>
+              </div>
               <h1 className="text-4xl lg:text-6xl font-bold leading-tight">
                 Trade Smarter with{" "}
                 <span className="bg-gradient-primary bg-clip-text text-transparent">
@@ -45,14 +50,15 @@ const Index = () => {
               </h1>
               <p className="text-xl text-muted-foreground max-w-lg">
                 Experience professional-grade trading with real-time market data, 
-                advanced analytics, and seamless execution. Built for both beginners and experts.
+                advanced analytics, and seamless execution. <span className="font-semibold text-chart-bull">Get $1,000 instantly</span> when you sign up today!
               </p>
             </div>
             
             <div className="flex flex-col sm:flex-row gap-4">
               <Link to="/auth">
-                <Button size="lg" className="bg-gradient-primary shadow-trading text-lg px-8 py-6">
-                  Start Trading Now
+                <Button size="lg" className="bg-gradient-primary shadow-trading text-lg px-8 py-6 relative overflow-hidden group">
+                  <span className="relative z-10">Claim Your $1,000 Bonus</span>
+                  <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
                 </Button>
               </Link>
               <Button variant="outline" size="lg" className="text-lg px-8 py-6">
@@ -151,20 +157,24 @@ const Index = () => {
       <section className="container mx-auto px-6 py-16">
         <Card className="p-12 text-center bg-gradient-primary border-none relative overflow-hidden">
           <div className="absolute inset-0 bg-black/20"></div>
+          <Badge className="relative z-10 bg-white/20 text-primary-foreground border-white/30 text-lg px-6 py-2 mb-6 animate-bounce-subtle">
+            🎁 Limited Time Offer
+          </Badge>
           <div className="relative z-10">
             <h2 className="text-3xl lg:text-4xl font-bold text-primary-foreground mb-4">
-              Ready to Start Trading?
+              Sign Up & Get $1,000 FREE
             </h2>
             <p className="text-xl text-primary-foreground/80 mb-8 max-w-2xl mx-auto">
-              Join thousands of successful traders who trust TradeForce for their investment journey.
+              Start trading immediately with your welcome bonus. No deposit required!
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link to="/auth">
                 <Button 
                   size="lg" 
-                  className="bg-background text-foreground hover:bg-background/90 shadow-lg text-lg px-8 py-6"
+                  className="bg-background text-foreground hover:bg-background/90 shadow-lg text-lg px-8 py-6 relative overflow-hidden group"
                 >
-                  Get Started Free
+                  <span className="relative z-10">Claim $1,000 Bonus Now</span>
+                  <div className="absolute inset-0 bg-accent/20 translate-x-full group-hover:translate-x-0 transition-transform duration-300"></div>
                 </Button>
               </Link>
               <Button 
