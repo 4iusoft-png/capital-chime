@@ -192,20 +192,31 @@ const Index = () => {
       {/* Footer */}
       <footer className="border-t border-border/50 bg-card/50 backdrop-blur-lg">
         <div className="container mx-auto px-6 py-8">
-          <div className="flex flex-col md:flex-row items-center justify-between">
-            <div className="flex items-center gap-2 mb-4 md:mb-0">
+          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="flex items-center gap-2">
               <TrendingUp className="h-6 w-6 text-primary" />
               <span className="text-xl font-bold">TradeForce</span>
             </div>
-            <div className="flex items-center gap-6 text-muted-foreground">
+            
+            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
               <a href="#" className="hover:text-primary transition-colors">About</a>
               <a href="#" className="hover:text-primary transition-colors">Features</a>
               <a href="#" className="hover:text-primary transition-colors">Pricing</a>
               <a href="#" className="hover:text-primary transition-colors">Support</a>
+              <Link to="/privacy-policy" className="hover:text-primary transition-colors">
+                Privacy Policy
+              </Link>
+              <Link to="/terms-conditions" className="hover:text-primary transition-colors">
+                Terms & Conditions
+              </Link>
             </div>
           </div>
-          <div className="text-center text-muted-foreground text-sm mt-8">
-            © 2024 TradeForce. All rights reserved. Trading involves risk of loss.
+          
+          <div className="text-center text-muted-foreground text-sm mt-6 space-y-2">
+            <p>© 2024 TradeForce. All rights reserved. Trading involves risk of loss.</p>
+            <p className="text-xs">
+              We comply with GDPR, use cookies to enhance your experience, and protect your data with industry-standard security measures.
+            </p>
           </div>
         </div>
       </footer>
