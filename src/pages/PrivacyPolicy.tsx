@@ -36,7 +36,7 @@ const PrivacyPolicy = () => {
                 Introduction
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                At TradeForce, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our trading platform and services.
+                At TradeUSAFX, we take your privacy seriously. This Privacy Policy explains how we collect, use, disclose, and safeguard your information when you use our trading platform and services.
               </p>
             </section>
 
@@ -176,8 +176,8 @@ const PrivacyPolicy = () => {
                 If you have questions about this Privacy Policy or wish to exercise your data rights, please contact us at:
               </p>
               <div className="bg-muted/50 p-4 rounded-lg space-y-1">
-                <p className="font-medium">Email: privacy@tradeforce.com</p>
-                <p className="font-medium">Address: 123 Trading Street, Financial District</p>
+                <p className="font-medium">Email: privacy@tradeusafx.com</p>
+                <p className="font-medium">Address: 4265, San Felipe Suite 6000, Houston, Texas 77027 USA</p>
               </div>
             </section>
 

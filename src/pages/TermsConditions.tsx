@@ -36,7 +36,7 @@ const TermsConditions = () => {
                 Agreement to Terms
               </h2>
               <p className="text-muted-foreground leading-relaxed">
-                By accessing and using TradeForce ("the Platform"), you agree to be bound by these Terms and Conditions. If you disagree with any part of these terms, you may not access the Platform.
+                By accessing and using TradeUSAFX ("the Platform"), you agree to be bound by these Terms and Conditions. If you disagree with any part of these terms, you may not access the Platform.
               </p>
             </section>
 
@@ -44,7 +44,7 @@ const TermsConditions = () => {
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold">Eligibility</h2>
               <div className="space-y-2 text-muted-foreground">
-                <p className="leading-relaxed">To use TradeForce, you must:</p>
+                <p className="leading-relaxed">To use TradeUSAFX, you must:</p>
                 <ul className="list-disc list-inside space-y-1 ml-4">
                   <li>Be at least 18 years of age or the age of majority in your jurisdiction</li>
                   <li>Have the legal capacity to enter into binding contracts</li>
@@ -84,7 +84,7 @@ const TermsConditions = () => {
                   <li>One bonus per person, household, or IP address</li>
                   <li>Must complete identity verification to withdraw funds</li>
                   <li>Bonus may be subject to trading volume requirements</li>
-                  <li>TradeForce reserves the right to modify or discontinue the bonus program</li>
+                  <li>TradeUSAFX reserves the right to modify or discontinue the bonus program</li>
                   <li>Administrative accounts do not receive the welcome bonus</li>
                 </ul>
               </div>
@@ -159,7 +159,7 @@ const TermsConditions = () => {
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold">Intellectual Property</h2>
               <p className="text-muted-foreground leading-relaxed">
-                All content on the Platform, including text, graphics, logos, software, and data, is the property of TradeForce or its licensors and protected by copyright, trademark, and other intellectual property laws. You may not copy, modify, distribute, or reverse engineer any part of the Platform without our express written permission.
+                All content on the Platform, including text, graphics, logos, software, and data, is the property of TradeUSAFX or its licensors and protected by copyright, trademark, and other intellectual property laws. You may not copy, modify, distribute, or reverse engineer any part of the Platform without our express written permission.
               </p>
             </section>
 
@@ -167,7 +167,7 @@ const TermsConditions = () => {
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold">Limitation of Liability</h2>
               <p className="text-muted-foreground leading-relaxed">
-                To the maximum extent permitted by law, TradeForce shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or other intangible losses resulting from your use of the Platform. Our total liability shall not exceed the amount you paid to us in the twelve months preceding the claim.
+                To the maximum extent permitted by law, TradeUSAFX shall not be liable for any indirect, incidental, special, consequential, or punitive damages, including loss of profits, data, or other intangible losses resulting from your use of the Platform. Our total liability shall not exceed the amount you paid to us in the twelve months preceding the claim.
               </p>
             </section>
 
@@ -175,7 +175,7 @@ const TermsConditions = () => {
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold">Indemnification</h2>
               <p className="text-muted-foreground leading-relaxed">
-                You agree to indemnify and hold harmless TradeForce, its affiliates, and their respective officers, directors, employees, and agents from any claims, damages, losses, or expenses arising from your use of the Platform, violation of these Terms, or infringement of any third-party rights.
+                You agree to indemnify and hold harmless TradeUSAFX, its affiliates, and their respective officers, directors, employees, and agents from any claims, damages, losses, or expenses arising from your use of the Platform, violation of these Terms, or infringement of any third-party rights.
               </p>
             </section>
 
@@ -211,7 +211,7 @@ const TermsConditions = () => {
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold">Governing Law</h2>
               <p className="text-muted-foreground leading-relaxed">
-                These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which TradeForce operates, without regard to its conflict of law provisions.
+                These Terms shall be governed by and construed in accordance with the laws of the jurisdiction in which TradeUSAFX operates, without regard to its conflict of law provisions.
               </p>
             </section>
 
@@ -230,8 +230,8 @@ const TermsConditions = () => {
                 For questions about these Terms and Conditions, please contact:
               </p>
               <div className="bg-muted/50 p-4 rounded-lg space-y-1">
-                <p className="font-medium">Email: legal@tradeforce.com</p>
-                <p className="font-medium">Address: 123 Trading Street, Financial District</p>
+                <p className="font-medium">Email: legal@tradeusafx.com</p>
+                <p className="font-medium">Address: 4265, San Felipe Suite 6000, Houston, Texas 77027 USA</p>
                 <p className="font-medium">Phone: +1 (555) 123-4567</p>
               </div>
             </section>
@@ -240,7 +240,7 @@ const TermsConditions = () => {
             <section className="space-y-4">
               <div className="bg-primary/10 border border-primary/30 p-4 rounded-lg">
                 <p className="text-sm leading-relaxed">
-                  By using TradeForce, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. If you do not agree to these Terms, please discontinue use of the Platform immediately.
+                  By using TradeUSAFX, you acknowledge that you have read, understood, and agree to be bound by these Terms and Conditions. If you do not agree to these Terms, please discontinue use of the Platform immediately.
                 </p>
               </div>
             </section>

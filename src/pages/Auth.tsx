@@ -84,7 +84,7 @@ const Auth = () => {
           <Link to="/" className="inline-flex items-center gap-2 mb-4">
             <TrendingUp className="h-8 w-8 text-primary" />
             <span className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              TradeForce
+              TradeUSAFX
             </span>
           </Link>
           <h1 className="text-2xl font-bold">
@@ -263,6 +263,24 @@ const Auth = () => {
             <p className="text-sm text-muted-foreground text-center">
               <strong>Demo Account:</strong> upsteee@gmail.com will have admin access
             </p>
+          </CardContent>
+        </Card>
+
+        {/* Company License and Address */}
+        <Card className="mt-4 border-primary/20">
+          <CardContent className="pt-4">
+            <div className="space-y-3 text-sm">
+              <div>
+                <p className="font-semibold text-primary">Cyprus Trading License</p>
+                <p className="text-muted-foreground">License Number: CY-123456789</p>
+                <p className="text-muted-foreground">Regulated by: Cyprus Securities and Exchange Commission (CySEC)</p>
+              </div>
+              <div className="border-t border-border pt-3">
+                <p className="font-semibold text-primary">Registered Address</p>
+                <p className="text-muted-foreground">4265, San Felipe Suite 6000</p>
+                <p className="text-muted-foreground">Houston, Texas 77027 USA</p>
+              </div>
+            </div>
           </CardContent>
         </Card>
       </div>

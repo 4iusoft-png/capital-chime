@@ -14,7 +14,7 @@ const Index = () => {
           <div className="flex items-center gap-2">
             <TrendingUp className="h-8 w-8 text-primary" />
             <span className="text-2xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-              TradeForce
+              TradeUSAFX
             </span>
           </div>
           <div className="flex items-center gap-4">
@@ -98,7 +98,7 @@ const Index = () => {
       <section className="container mx-auto px-6 py-16">
         <div className="text-center mb-12 animate-fade-in">
           <h2 className="text-3xl lg:text-4xl font-bold mb-4">
-            Why Choose TradeForce?
+            Why Choose TradeUSAFX?
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
             Built with cutting-edge technology to give you the competitive edge in today's markets.
@@ -195,7 +195,7 @@ const Index = () => {
           <div className="flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="flex items-center gap-2">
               <TrendingUp className="h-6 w-6 text-primary" />
-              <span className="text-xl font-bold">TradeForce</span>
+              <span className="text-xl font-bold">TradeUSAFX</span>
             </div>
             
             <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
@@ -213,7 +213,7 @@ const Index = () => {
           </div>
           
           <div className="text-center text-muted-foreground text-sm mt-6 space-y-2">
-            <p>© 2024 TradeForce. All rights reserved. Trading involves risk of loss.</p>
+            <p>© 2024 TradeUSAFX. All rights reserved. Trading involves risk of loss.</p>
             <p className="text-xs">
               We comply with GDPR, use cookies to enhance your experience, and protect your data with industry-standard security measures.
             </p>
