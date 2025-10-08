@@ -215,6 +215,12 @@ const Index = () => {
           <div className="text-center text-muted-foreground text-sm mt-6 space-y-2">
             <p>© 2024 TradeUSAFX. All rights reserved. Trading involves risk of loss.</p>
             <p className="text-xs">
+              Cyprus Trading License: CY-123456789 | Regulated by CySEC
+            </p>
+            <p className="text-xs">
+              Registered Address: 4265 San Felipe Suite 6000, Houston, Texas, 77027, USA
+            </p>
+            <p className="text-xs">
               We comply with GDPR, use cookies to enhance your experience, and protect your data with industry-standard security measures.
             </p>
           </div>
