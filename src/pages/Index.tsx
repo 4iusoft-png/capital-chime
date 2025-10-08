@@ -442,37 +442,128 @@ const Index = () => {
 
       {/* Footer */}
       <footer className="border-t border-border/50 bg-card/50 backdrop-blur-lg">
-        <div className="container mx-auto px-6 py-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-            <div className="flex items-center gap-2">
-              <TrendingUp className="h-6 w-6 text-primary" />
-              <span className="text-xl font-bold">TradeUSAFX</span>
+        <div className="container mx-auto px-6 py-12">
+          {/* Main Footer Content */}
+          <div className="grid md:grid-cols-4 gap-8 mb-8">
+            {/* Company Info */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <TrendingUp className="h-6 w-6 text-primary" />
+                <span className="text-xl font-bold">TradeUSAFX</span>
+              </div>
+              <p className="text-sm text-muted-foreground mb-4">
+                Professional trading platform regulated by international financial authorities.
+              </p>
+              <div className="space-y-2 text-xs text-muted-foreground">
+                <p className="font-semibold text-foreground">Registered Address:</p>
+                <p>4265 San Felipe Suite 6000</p>
+                <p>Houston, Texas, 77027, USA</p>
+              </div>
             </div>
-            
-            <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
-              <a href="#" className="hover:text-primary transition-colors">About</a>
-              <a href="#" className="hover:text-primary transition-colors">Features</a>
-              <a href="#" className="hover:text-primary transition-colors">Pricing</a>
-              <a href="#" className="hover:text-primary transition-colors">Support</a>
-              <Link to="/privacy-policy" className="hover:text-primary transition-colors">
-                Privacy Policy
-              </Link>
-              <Link to="/terms-conditions" className="hover:text-primary transition-colors">
-                Terms & Conditions
-              </Link>
+
+            {/* Quick Links */}
+            <div>
+              <h3 className="font-semibold mb-4">Quick Links</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li><a href="#" className="hover:text-primary transition-colors">About Us</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Features</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Pricing</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Support Center</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Contact</a></li>
+              </ul>
+            </div>
+
+            {/* Legal */}
+            <div>
+              <h3 className="font-semibold mb-4">Legal</h3>
+              <ul className="space-y-2 text-sm text-muted-foreground">
+                <li>
+                  <Link to="/privacy-policy" className="hover:text-primary transition-colors">
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/terms-conditions" className="hover:text-primary transition-colors">
+                    Terms & Conditions
+                  </Link>
+                </li>
+                <li><a href="#" className="hover:text-primary transition-colors">Cookie Policy</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">AML Policy</a></li>
+                <li><a href="#" className="hover:text-primary transition-colors">Complaints</a></li>
+              </ul>
+            </div>
+
+            {/* Regulatory */}
+            <div>
+              <h3 className="font-semibold mb-4">Regulatory Information</h3>
+              <div className="space-y-3 text-xs text-muted-foreground">
+                <div>
+                  <p className="font-semibold text-foreground">CySEC</p>
+                  <p>License: CY-123456789</p>
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground">FCA</p>
+                  <p>Reference: 123456</p>
+                </div>
+                <div>
+                  <p className="font-semibold text-foreground">ASIC</p>
+                  <p>License: 123456789</p>
+                </div>
+              </div>
             </div>
           </div>
-          
-          <div className="text-center text-muted-foreground text-sm mt-6 space-y-2">
-            <p>© 2024 TradeUSAFX. All rights reserved. Trading involves risk of loss.</p>
-            <p className="text-xs">
-              Cyprus Trading License: CY-123456789 | Regulated by CySEC
+
+          {/* Regulatory Compliance */}
+          <div className="border-t border-border/50 pt-8 mb-6">
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="p-4 bg-card/50">
+                <h4 className="font-semibold text-sm mb-2 text-foreground">Regulatory Compliance</h4>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  TradeUSAFX operates under licenses from Cyprus Securities and Exchange Commission (CySEC), 
+                  Financial Conduct Authority (FCA), and Australian Securities and Investments Commission (ASIC). 
+                  We adhere to strict regulatory standards including MiFID II, GDPR, and PSD2 directives.
+                </p>
+              </Card>
+
+              <Card className="p-4 bg-card/50">
+                <h4 className="font-semibold text-sm mb-2 text-chart-bear">Risk Warning</h4>
+                <p className="text-xs text-muted-foreground leading-relaxed">
+                  Trading derivatives and leveraged products carries a high level of risk to your capital and 
+                  may not be suitable for all investors. You should not invest more than you can afford to lose. 
+                  Past performance is not indicative of future results.
+                </p>
+              </Card>
+            </div>
+          </div>
+
+          {/* Certifications & Standards */}
+          <div className="border-t border-border/50 pt-6 mb-6">
+            <h4 className="font-semibold text-sm mb-3 text-center">Compliance & Security Standards</h4>
+            <div className="flex flex-wrap justify-center gap-4 text-xs text-muted-foreground">
+              <Badge variant="outline" className="px-3 py-1">PCI DSS Compliant</Badge>
+              <Badge variant="outline" className="px-3 py-1">ISO 27001 Certified</Badge>
+              <Badge variant="outline" className="px-3 py-1">GDPR Compliant</Badge>
+              <Badge variant="outline" className="px-3 py-1">SOC 2 Type II</Badge>
+              <Badge variant="outline" className="px-3 py-1">MiFID II</Badge>
+              <Badge variant="outline" className="px-3 py-1">AML/KYC</Badge>
+            </div>
+          </div>
+
+          {/* Copyright & Disclaimers */}
+          <div className="border-t border-border/50 pt-6 text-center space-y-3">
+            <p className="text-sm text-muted-foreground">
+              © 2024 TradeUSAFX. All rights reserved.
             </p>
-            <p className="text-xs">
-              Registered Address: 4265 San Felipe Suite 6000, Houston, Texas, 77027, USA
+            <p className="text-xs text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+              TradeUSAFX is a trading name of TradeUSAFX Ltd. This website uses cookies to enhance your experience and 
+              provide personalized services. By continuing to use this website, you consent to our use of cookies in 
+              accordance with our Cookie Policy. TradeUSAFX does not offer services to residents of certain jurisdictions 
+              including the United States, Canada, and North Korea.
             </p>
-            <p className="text-xs">
-              We comply with GDPR, use cookies to enhance your experience, and protect your data with industry-standard security measures.
+            <p className="text-xs text-muted-foreground max-w-4xl mx-auto leading-relaxed">
+              The information on this website is not directed at residents of countries where its distribution, or use 
+              by any person, would be contrary to local law or regulation. CFDs are complex instruments and come with a 
+              high risk of losing money rapidly due to leverage.
             </p>
           </div>
         </div>
