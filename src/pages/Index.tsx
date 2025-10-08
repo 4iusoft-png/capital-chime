@@ -4,6 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { TrendingUp, Shield, Users, BarChart3, Zap, Globe } from "lucide-react";
 import heroImage from "@/assets/hero-trading.jpg";
+import chartCandlestick from "@/assets/chart-candlestick.jpg";
+import chartAnalytics from "@/assets/chart-analytics.jpg";
+import chartForex from "@/assets/chart-forex.jpg";
 
 const Index = () => {
   return (
@@ -150,6 +153,94 @@ const Index = () => {
               <p className="text-muted-foreground">{feature.description}</p>
             </Card>
           ))}
+        </div>
+      </section>
+
+      {/* TradingView Charts Section */}
+      <section className="container mx-auto px-6 py-16 bg-card/30">
+        <div className="text-center mb-12 animate-fade-in">
+          <Badge className="bg-primary/20 text-primary border-primary/30 mb-4">
+            Powered by TradingView
+          </Badge>
+          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+            Professional Trading Charts & Analytics
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+            Access industry-leading TradingView charts with advanced technical analysis tools, 
+            real-time data, and customizable indicators to make informed trading decisions.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8 mb-12">
+          <Card className="overflow-hidden group hover:shadow-trading transition-all duration-300">
+            <div className="relative overflow-hidden">
+              <img 
+                src={chartCandlestick} 
+                alt="TradingView candlestick charts with volume indicators and technical analysis" 
+                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-semibold mb-2">Candlestick Charts</h3>
+              <p className="text-muted-foreground">
+                Professional candlestick patterns with volume analysis and trend indicators for precise market entry and exit points.
+              </p>
+            </div>
+          </Card>
+
+          <Card className="overflow-hidden group hover:shadow-trading transition-all duration-300">
+            <div className="relative overflow-hidden">
+              <img 
+                src={chartAnalytics} 
+                alt="Advanced TradingView analytics with MACD, RSI indicators and moving averages" 
+                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-semibold mb-2">Technical Indicators</h3>
+              <p className="text-muted-foreground">
+                Access 100+ built-in indicators including MACD, RSI, moving averages, and custom scripts for advanced analysis.
+              </p>
+            </div>
+          </Card>
+
+          <Card className="overflow-hidden group hover:shadow-trading transition-all duration-300">
+            <div className="relative overflow-hidden">
+              <img 
+                src={chartForex} 
+                alt="TradingView forex charts with support and resistance levels" 
+                className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent"></div>
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-semibold mb-2">Multi-Asset Support</h3>
+              <p className="text-muted-foreground">
+                Trade stocks, forex, crypto, and commodities with unified charting tools and real-time market data feeds.
+              </p>
+            </div>
+          </Card>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+          <div className="p-6">
+            <div className="text-3xl font-bold text-primary mb-2">100+</div>
+            <div className="text-sm text-muted-foreground">Technical Indicators</div>
+          </div>
+          <div className="p-6">
+            <div className="text-3xl font-bold text-chart-bull mb-2">50+</div>
+            <div className="text-sm text-muted-foreground">Drawing Tools</div>
+          </div>
+          <div className="p-6">
+            <div className="text-3xl font-bold text-accent mb-2">Real-Time</div>
+            <div className="text-sm text-muted-foreground">Market Data</div>
+          </div>
+          <div className="p-6">
+            <div className="text-3xl font-bold text-primary mb-2">Custom</div>
+            <div className="text-sm text-muted-foreground">Alert Systems</div>
+          </div>
         </div>
       </section>
 
