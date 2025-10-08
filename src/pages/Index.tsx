@@ -2,11 +2,17 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
-import { TrendingUp, Shield, Users, BarChart3, Zap, Globe } from "lucide-react";
+import { TrendingUp, Shield, Users, BarChart3, Zap, Globe, Star } from "lucide-react";
 import heroImage from "@/assets/hero-trading.jpg";
 import chartCandlestick from "@/assets/chart-candlestick.jpg";
 import chartAnalytics from "@/assets/chart-analytics.jpg";
 import chartForex from "@/assets/chart-forex.jpg";
+import profitChart1 from "@/assets/profit-chart-1.jpg";
+import profitChart2 from "@/assets/profit-chart-2.jpg";
+import testimonial1 from "@/assets/testimonial-1.jpg";
+import testimonial2 from "@/assets/testimonial-2.jpg";
+import testimonial3 from "@/assets/testimonial-3.jpg";
+import testimonial4 from "@/assets/testimonial-4.jpg";
 
 const Index = () => {
   return (
@@ -241,6 +247,160 @@ const Index = () => {
             <div className="text-3xl font-bold text-primary mb-2">Custom</div>
             <div className="text-sm text-muted-foreground">Alert Systems</div>
           </div>
+        </div>
+      </section>
+
+      {/* Profit Results Section */}
+      <section className="container mx-auto px-6 py-16">
+        <div className="text-center mb-12 animate-fade-in">
+          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+            Real Results from Real Traders
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            See how our traders are achieving consistent profits with our advanced trading platform.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 gap-8 mb-8">
+          <Card className="overflow-hidden group hover:shadow-trading transition-all duration-300">
+            <div className="relative overflow-hidden">
+              <img 
+                src={profitChart1} 
+                alt="Trading profit chart showing consistent upward growth and successful portfolio performance" 
+                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute top-4 right-4">
+                <Badge className="bg-chart-bull/90 text-white">+247% Growth</Badge>
+              </div>
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-semibold mb-2">Portfolio Growth</h3>
+              <p className="text-muted-foreground">
+                Consistent portfolio growth achieved through strategic trading and risk management.
+              </p>
+            </div>
+          </Card>
+
+          <Card className="overflow-hidden group hover:shadow-trading transition-all duration-300">
+            <div className="relative overflow-hidden">
+              <img 
+                src={profitChart2} 
+                alt="Account balance growth showing significant percentage gains over trading period" 
+                className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className="absolute top-4 right-4">
+                <Badge className="bg-chart-bull/90 text-white">+160% Returns</Badge>
+              </div>
+            </div>
+            <div className="p-6">
+              <h3 className="text-xl font-semibold mb-2">Account Balance</h3>
+              <p className="text-muted-foreground">
+                Exceptional returns demonstrating the power of informed trading decisions.
+              </p>
+            </div>
+          </Card>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="container mx-auto px-6 py-16 bg-card/30">
+        <div className="text-center mb-12 animate-fade-in">
+          <h2 className="text-3xl lg:text-4xl font-bold mb-4">
+            What Our Traders Say
+          </h2>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            Join thousands of satisfied traders who trust TradeUSAFX for their trading needs.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card className="p-6 hover:shadow-trading transition-all duration-300">
+            <div className="flex items-center gap-4 mb-4">
+              <img 
+                src={testimonial1} 
+                alt="Sarah Johnson, professional trader testimonial" 
+                className="w-16 h-16 rounded-full object-cover"
+              />
+              <div>
+                <div className="font-semibold">Sarah Johnson</div>
+                <div className="text-sm text-muted-foreground">Day Trader</div>
+              </div>
+            </div>
+            <div className="flex gap-1 mb-3">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+              ))}
+            </div>
+            <p className="text-muted-foreground">
+              "TradeUSAFX transformed my trading experience. The platform is intuitive and the TradingView charts are incredible!"
+            </p>
+          </Card>
+
+          <Card className="p-6 hover:shadow-trading transition-all duration-300">
+            <div className="flex items-center gap-4 mb-4">
+              <img 
+                src={testimonial2} 
+                alt="Michael Chen, investment professional testimonial" 
+                className="w-16 h-16 rounded-full object-cover"
+              />
+              <div>
+                <div className="font-semibold">Michael Chen</div>
+                <div className="text-sm text-muted-foreground">Investor</div>
+              </div>
+            </div>
+            <div className="flex gap-1 mb-3">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+              ))}
+            </div>
+            <p className="text-muted-foreground">
+              "The $1,000 welcome bonus was a great start. I've seen consistent profits since joining 6 months ago."
+            </p>
+          </Card>
+
+          <Card className="p-6 hover:shadow-trading transition-all duration-300">
+            <div className="flex items-center gap-4 mb-4">
+              <img 
+                src={testimonial3} 
+                alt="David Kim, forex trader testimonial" 
+                className="w-16 h-16 rounded-full object-cover"
+              />
+              <div>
+                <div className="font-semibold">David Kim</div>
+                <div className="text-sm text-muted-foreground">Forex Trader</div>
+              </div>
+            </div>
+            <div className="flex gap-1 mb-3">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+              ))}
+            </div>
+            <p className="text-muted-foreground">
+              "Fast execution, excellent support, and powerful analytics. Everything I need in one platform."
+            </p>
+          </Card>
+
+          <Card className="p-6 hover:shadow-trading transition-all duration-300">
+            <div className="flex items-center gap-4 mb-4">
+              <img 
+                src={testimonial4} 
+                alt="Emma Rodriguez, professional trader testimonial" 
+                className="w-16 h-16 rounded-full object-cover"
+              />
+              <div>
+                <div className="font-semibold">Emma Rodriguez</div>
+                <div className="text-sm text-muted-foreground">Swing Trader</div>
+              </div>
+            </div>
+            <div className="flex gap-1 mb-3">
+              {[...Array(5)].map((_, i) => (
+                <Star key={i} className="w-4 h-4 fill-accent text-accent" />
+              ))}
+            </div>
+            <p className="text-muted-foreground">
+              "Best trading platform I've used. The AI insights help me make better decisions every day."
+            </p>
+          </Card>
         </div>
       </section>
 
